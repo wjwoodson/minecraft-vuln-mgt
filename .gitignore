@@ -1,0 +1,10 @@
+eula.txt
+ops.json
+whitelist.json
+usercache.json
+minecraft_server*jar
+*.tgz
+logs/*
+minecraft-vuln-mgt/playerdata/*
+minecraft-vuln-mgt/stats/*
+minecraft-vuln-mgt/session.lock
