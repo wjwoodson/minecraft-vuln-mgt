@@ -21,6 +21,4 @@ Educational 4 player minecraft scenario focusing on vulnerability management - i
 - scoring
 
 ## Additional resources
-- brief in
-- handouts
-- brief out
+- [Minecraft Network Defense scenario handout (PDF)](https://github.com/wjwoodson/minecraft-vuln-mgt/blob/master/resources/minecraft-network-defense-handout.pdf)
