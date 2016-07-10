@@ -3,6 +3,7 @@ DATE=`date +%Y%m%d-%H%M%S`
 MCPATH=$HOME'/minecraft'
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
+SAVEPOINT=''
 
 P1NAME='minesecedu_p1' # red
 P2NAME='minesecedu_p2' # yellow
@@ -15,7 +16,7 @@ P3SCORE=0 # green
 P4SCORE=0 # blue
 
 # Restore from backup
-./restore-world.sh 20160710-184545
+./restore-world.sh $SAVEPOINT
 sleep 15
 echo 'Login players now.'
 sleep 105
@@ -59,7 +60,7 @@ screen -S $SCREENNAME -X stuff '/fill 222 4 217 244 8 239 air 0 replace stonebri
 sleep 120
 # Seal bases
 screen -S $SCREENNAME -X stuff '/fill 178 4 227 182 7 229 stonebrick 0 replace air 0'$(echo -ne '\015') # red
-# yellow
+screen -S $SCREENNAME -X stuff '/fill 232 4 279 235 7 283 stonebrick 0 replace air 0'$(echo -ne '\015') # yellow
 # green
 # blue
 
@@ -86,7 +87,7 @@ screen -S $SCREENNAME -X stuff '/say Cyber attacks beginning. Keep attackers out
 
 # Begin stage 1
 screen -S $SCREENNAME -X stuff '/fill 143 4 210 161 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
-# yellow
+screen -S $SCREENNAME -X stuff '/fill 215 4 300 251 8 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 # green
 # blue
 for i in {1..6}; do
@@ -96,6 +97,10 @@ for i in {1..6}; do
 	screen -S $SCREENNAME -X stuff '/summon Zombie 144 4 226'$(echo -ne '\015')
 	screen -S $SCREENNAME -X stuff '/summon Zombie 149 4 245'$(echo -ne '\015')
 	# yellow
+	screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 302'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 312'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 317'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 250 4 312'$(echo -ne '\015')
 	# green
 	# blue
 done
@@ -113,9 +118,9 @@ for i in {1..12}; do
 	P1SCORE=$((P1SCORE + 10 - SCORE))
 	# yellow
 	P2DATE=`date +%H:%M:%S`
-	screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne '\015')
-        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
-        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
+	screen -S $SCREENNAME -X stuff '/testfor @e[225,4,294,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[242,4,294,5,type=Zombie]'$(echo -ne '\015')
 	sleep 1
         screen -S minecraft -X hardcopy $MCPATH'/count'
         sleep 1
@@ -147,7 +152,7 @@ done
 
 # Begin stage 2. Alert that cyber threat intel is available.
 screen -S $SCREENNAME -X stuff '/fill 143 0 210 161 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
-# yellow
+screen -S $SCREENNAME -X stuff '/fill 215 0 300 251 4 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 # green
 # blue
 for i in {1..4}; do
@@ -155,6 +160,8 @@ for i in {1..4}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 151 1 234'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/summon Zombie 154 1 219'$(echo -ne '\015')
         # yellow
+	screen -S $SCREENNAME -X stuff '/summon Zombie 239 1 310'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 225 1 209'$(echo -ne '\015')
         # green
         # blue
 done
@@ -169,7 +176,7 @@ sleep 60
 
 # Begin stage 3
 screen -S $SCREENNAME -X stuff '/fill 162 4 228 177 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') #red
-# yellow
+screen -S $SCREENNAME -X stuff '/fill 233 4 284 251 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 # green
 # blue
 for i in {1..2}; do
@@ -177,12 +184,14 @@ for i in {1..2}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 161 4 228'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/summon Zombie 163 4 245'$(echo -ne '\015')
         # yellow
+	screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 300'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 250 4 298'$(echo -ne '\015')
         # green
         # blue
 done
 for i in {1..6}; do
-        screen -S $SCREENNAME -X stuff '/summon Zombie 176 4 245'$(echo -ne '\015') #red
-        # yellow
+        screen -S $SCREENNAME -X stuff '/summon Zombie 176 4 245'$(echo -ne '\015') # red
+        screen -S $SCREENNAME -X stuff '/summon Zombie 249 4 287'$(echo -ne '\015') # yellow
         # green
         # blue
 done
@@ -194,18 +203,18 @@ sleep 120
 
 # Begin stage 4
 screen -S $SCREENNAME -X stuff '/fill 162 4 210 177 8 227 air 0 replace stonebrick 2'$(echo -ne '\015') #red
-# yellow
+screen -S $SCREENNAME -X stuff '/fill 215 4 284 232 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 # green
 # blue
 for i in {1..2}; do
-	screen -S $SCREENNAME -X stuff '/summon Zombie 163 4 211'$(echo -ne '\015') #red
-        # yellow
+	screen -S $SCREENNAME -X stuff '/summon Zombie 163 4 211'$(echo -ne '\015') # red
+        screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 298'$(echo -ne '\015') # yellow
         # green
         # blue
 done
 for i in {1..6}; do
-        screen -S $SCREENNAME -X stuff '/summon Zombie 176 4 211'$(echo -ne '\015') #red
-        # yellow
+        screen -S $SCREENNAME -X stuff '/summon Zombie 176 4 211'$(echo -ne '\015') # red
+        screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 287'$(echo -ne '\015') # yellow
         # green
         # blue
 done
