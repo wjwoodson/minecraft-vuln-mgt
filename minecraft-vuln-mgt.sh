@@ -4,9 +4,9 @@ MCPATH=$HOME'/minecraft'
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 
-P1NAME='wwosatx' # red
-P2NAME='' # yellow
-P3NAME='' # green
+P1NAME='minesecedu_p1' # red
+P2NAME='minesecedu_p2' # yellow
+P3NAME='minesecedu_p3' # green
 P4NAME='minesecedu_p4' # blue
 
 P1SCORE=0 # red
@@ -144,6 +144,7 @@ for i in {1..12}; do
 	sleep 2
 done
 
+
 # Begin stage 2. Alert that cyber threat intel is available.
 screen -S $SCREENNAME -X stuff '/fill 143 0 210 161 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 # yellow
@@ -241,111 +242,111 @@ screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damag
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 10 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 10 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 10 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 10 * P4BOOL))
 # If 2
-C1DATE=`date +%H:%M:%S`
+C2DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:2b}]}'$(echo -ne '\015')
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C2DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 20 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C2DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 20 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C2DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 20 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C2DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 20 * P4BOOL))
 # If 3
-C1DATE=`date +%H:%M:%S`
+C3DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:3b}]}'$(echo -ne '\015')
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C3DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 30 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C3DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 30 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C3DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 30 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C3DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 30 * P4BOOL))
 # If 4
-C1DATE=`date +%H:%M:%S`
+C4DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:4b}]}'$(echo -ne '\015')
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C4DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 40 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C4DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 40 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C4DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 40 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C4DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 40 * P4BOOL))
 # If 5
-C1DATE=`date +%H:%M:%S`
+C5DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:5b}]}'$(echo -ne '\015')
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C5DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 50 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C5DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 50 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C5DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 50 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C5DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 50 * P4BOOL))
 # If 6
-C1DATE=`date +%H:%M:%S`
+C6DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:6b}]}'$(echo -ne '\015')
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C6DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 60 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C6DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 60 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C6DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 60 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C6DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 60 * P4BOOL))
 # If 7
-C1DATE=`date +%H:%M:%S`
+C7DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:7b}]}'$(echo -ne '\015')
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C7DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 70 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C7DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 70 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C7DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 70 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C7DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 70 * P4BOOL))
 # If 8
-C1DATE=`date +%H:%M:%S`
+C8DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:8b}]}'$(echo -ne '\015')
 sleep 1
 screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
-P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1BOOL=`grep $C8DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1SCORE=$((P1SCORE + 80 * P1BOOL))
-P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2BOOL=`grep $C8DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
 P2SCORE=$((P2SCORE + 80 * P2BOOL))
-P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3BOOL=`grep $C8DATE $MCPATH'/count' | grep -c 'Found '$P3NAME`
 P3SCORE=$((P3SCORE + 80 * P3BOOL))
-P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4BOOL=`grep $C8DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 80 * P4BOOL))
 
 
