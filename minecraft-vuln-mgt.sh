@@ -4,19 +4,35 @@ MCPATH=$HOME'/minecraft'
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 
+P1NAME='wwosatx' # red
+P2NAME='' # yellow
+P3NAME='' # green
+P4NAME='minesecedu_p4' # blue
+
+P1SCORE=0 # red
+P2SCORE=0 # yellow
+P3SCORE=0 # green
+P4SCORE=0 # blue
+
 # Restore from backup
-./restore-world.sh
-sleep 30
+./restore-world.sh 20160710-184545
+sleep 15
 echo 'Login players now.'
-sleep 90
+sleep 105
 
 #Teleport players to starting zone
+screen -S $SCREENNAME -X stuff '/tp '$P1NAME' 233 4 228'$(echo -ne '\015') # red
+screen -S $SCREENNAME -X stuff '/tp '$P2NAME' 233 4 228'$(echo -ne '\015') # yellow
+screen -S $SCREENNAME -X stuff '/tp '$P3NAME' 233 4 228'$(echo -ne '\015') # green
+screen -S $SCREENNAME -X stuff '/tp '$P4NAME' 233 4 228'$(echo -ne '\015') # blue
 echo 'Teleporting players to starting zone...'
+screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone...'$(echo -ne '\015')
 
 # Countdown to game start
-echo 'Minecraft Vulnerability Management'
+echo '!!! Minecraft Vulnerability Management !!!'
 echo 'The game will start in 60 seconds.'
-screen -S $SCREENNAME -X stuff '/say Minecraft Vulnerability Management'$(echo -ne '\015')
+screen -S $SCREENNAME -X stuff '/say !!! Minecraft Vulnerability Management !!!'$(echo -ne '\015')
+sleep 1
 screen -S $SCREENNAME -X stuff '/say The game will start in 60 seconds.'$(echo -ne '\015')
 sleep 30
 screen -S $SCREENNAME -X stuff '/say The game will start in 30 seconds...'$(echo -ne '\015')
@@ -48,6 +64,7 @@ screen -S $SCREENNAME -X stuff '/fill 178 4 227 182 7 229 stonebrick 0 replace a
 # blue
 
 # Countdown for preparations
+echo '60 seconds remaining to prepare defenses...'
 screen -S $SCREENNAME -X stuff '/say 60 seconds remaining to prepare defenses...'$(echo -ne '\015')
 sleep 30
 screen -S $SCREENNAME -X stuff '/say 30 seconds remaining to prepare defenses...'$(echo -ne '\015')
@@ -68,7 +85,7 @@ echo 'Cyber attacks beginning. Keep attackers outside of your defensive perimete
 screen -S $SCREENNAME -X stuff '/say Cyber attacks beginning. Keep attackers outside of your defensive perimeter for 7 minutes.'$(echo -ne '\015')
 
 # Begin stage 1
-screen -S $SCREENNAME -X stuff '/fill 143 4 210 161 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') #red
+screen -S $SCREENNAME -X stuff '/fill 143 4 210 161 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 # yellow
 # green
 # blue
@@ -82,10 +99,53 @@ for i in {1..6}; do
 	# green
 	# blue
 done
-sleep 120
+# poll for 2 minutes
+for i in {1..12}; do
+	# red
+	P1DATE=`date +%H:%M:%S`
+	screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne '\015')
+	screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
+	screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
+	sleep 1
+	screen -S minecraft -X hardcopy $MCPATH'/count'
+	sleep 1
+	SCORE=`grep $P1DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	P1SCORE=$((P1SCORE + 10 - SCORE))
+	# yellow
+	P2DATE=`date +%H:%M:%S`
+	screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
+	sleep 1
+        screen -S minecraft -X hardcopy $MCPATH'/count'
+        sleep 1
+        SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+        P2SCORE=$((P2SCORE + 10 - SCORE))
+	# green
+	P3DATE=`date +%H:%M:%S`
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
+        sleep 1
+        screen -S minecraft -X hardcopy $MCPATH'/count'
+        sleep 1
+        SCORE=`grep $P3DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+        P3SCORE=$((P3SCORE + 10 - SCORE))
+	# blue
+	P4DATE=`date +%H:%M:%S`
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
+        sleep 1
+        screen -S minecraft -X hardcopy $MCPATH'/count'
+        sleep 1
+        SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+        P4SCORE=$((P4SCORE + 10 - SCORE))
+	sleep 2
+done
 
 # Begin stage 2. Alert that cyber threat intel is available.
-screen -S $SCREENNAME -X stuff '/fill 143 0 210 161 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') #red
+screen -S $SCREENNAME -X stuff '/fill 143 0 210 161 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 # yellow
 # green
 # blue
@@ -97,8 +157,13 @@ for i in {1..4}; do
         # green
         # blue
 done
+echo '5 minutes remaining in game...'
+screen -S $SCREENNAME -X stuff '/say 5 minutes remaining in game...'$(echo -ne '\015')
+sleep 1
 echo 'Cyber threat intelligence is now available.'
 screen -S $SCREENNAME -X stuff '/say Cyber threat intelligence is now available.'$(echo -ne '\015')
+
+# poll for 60 seconds
 sleep 60
 
 # Begin stage 3
@@ -120,6 +185,10 @@ for i in {1..6}; do
         # green
         # blue
 done
+echo '4 minutes remaining in game...'
+screen -S $SCREENNAME -X stuff '/say 4 minutes remaining in game...'$(echo -ne '\015')
+
+# poll for 2 minutes
 sleep 120
 
 # Begin stage 4
@@ -139,13 +208,17 @@ for i in {1..6}; do
         # green
         # blue
 done
+echo '2 minutes remaining in game...'
+screen -S $SCREENNAME -X stuff '/say 2 minutes remaining in game...'$(echo -ne '\015')
+
+# poll for 60 seconds
 sleep 60
 
-# Countdown for end of game
+# poll for 50 seconds
 screen -S $SCREENNAME -X stuff '/say 60 seconds remaining in game...'$(echo -ne '\015')
-sleep 30
-screen -S $SCREENNAME -X stuff '/say 30 seconds remaining in game...'$(echo -ne '\015')
-sleep 20
+sleep 50
+
+# Countdown for end of game
 screen -S $SCREENNAME -X stuff '/say 10 seconds remaining in game...'$(echo -ne '\015')
 sleep 5
 screen -S $SCREENNAME -X stuff '/say 5...'$(echo -ne '\015')
@@ -158,9 +231,136 @@ screen -S $SCREENNAME -X stuff '/say 2...'$(echo -ne '\015')
 sleep 1
 screen -S $SCREENNAME -X stuff '/say 1...'$(echo -ne '\015')
 sleep 1
-echo 'Game completed!'
-screen -S $SCREENNAME -X stuff '/say Game completed!'$(echo -ne '\015')
+echo 'Game completed! Getting final results...'
+screen -S $SCREENNAME -X stuff '/say Game completed! Getting final results...'$(echo -ne '\015')
 
-# total scores 
+# Add cyber threat intelligence bonuses
+# If 1
+C1DATE=`date +%H:%M:%S` 
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:1b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 10 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 10 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 10 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 10 * P4BOOL))
+# If 2
+C1DATE=`date +%H:%M:%S`
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:2b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 20 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 20 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 20 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 20 * P4BOOL))
+# If 3
+C1DATE=`date +%H:%M:%S`
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:3b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 30 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 30 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 30 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 30 * P4BOOL))
+# If 4
+C1DATE=`date +%H:%M:%S`
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:4b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 40 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 40 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 40 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 40 * P4BOOL))
+# If 5
+C1DATE=`date +%H:%M:%S`
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:5b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 50 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 50 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 50 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 50 * P4BOOL))
+# If 6
+C1DATE=`date +%H:%M:%S`
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:6b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 60 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 60 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 60 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 60 * P4BOOL))
+# If 7
+C1DATE=`date +%H:%M:%S`
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:7b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 70 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 70 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 70 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 70 * P4BOOL))
+# If 8
+C1DATE=`date +%H:%M:%S`
+screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:8b}]}'$(echo -ne '\015')
+sleep 1
+screen -S minecraft -X hardcopy $MCPATH'/count'
+sleep 1
+P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P1NAME`
+P1SCORE=$((P1SCORE + 80 * P1BOOL))
+P2BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P2NAME`
+P2SCORE=$((P2SCORE + 80 * P2BOOL))
+P3BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P3NAME`
+P3SCORE=$((P3SCORE + 80 * P3BOOL))
+P4BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'found '$P4NAME`
+P4SCORE=$((P4SCORE + 80 * P4BOOL))
+
+
+# Subtract death penalties
+
+
+
 # report results
-
+echo 'Final Results:'
+screen -S $SCREENNAME -X stuff '/say Final Results:'$(echo -ne '\015')
+echo $P1NAME' : '$P1SCORE' points'
+screen -S $SCREENNAME -X stuff '/say '$P1NAME' : '$P1SCORE' points'$(echo -ne '\015')
+echo $P2NAME' : '$P2SCORE' points'
+screen -S $SCREENNAME -X stuff '/say '$P2NAME' : '$P2SCORE' points'$(echo -ne '\015')
+echo $P3NAME' : '$P3SCORE' points'
+screen -S $SCREENNAME -X stuff '/say '$P3NAME' : '$P3SCORE' points'$(echo -ne '\015')
+echo $P4NAME' : '$P4SCORE' points'
+screen -S $SCREENNAME -X stuff '/say '$P4NAME' : '$P4SCORE' points'$(echo -ne '\015')
