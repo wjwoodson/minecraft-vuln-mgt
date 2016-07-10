@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameProfile
+    xmlns="http://www.logitech.com/schemas/2009/gaming/game_profile">
+    <Profile GUID="{64AD0A6C-867F-43A0-BB34-4E474999A534}" Publisher="Custom User Profile" Author="secweb" Revision="2:09/07/2016" Installed="false">
+        <Name>minecraft</Name>
+        <Signature Key="" Value="" Shortcut="" />
+        <Target IconIndex="0">
+            <Name>MinecraftLauncher.exe</Name>
+        </Target>
+        <Macros>
+            <Command Id="1" Name="Mouse Left Button">
+                <Event Type="Mouse" DeltaX="0" DeltaY="0" Mask="1" />
+            </Command>
+            <Command Id="2" Name="Mouse Middle Button">
+                <Event Type="Mouse" DeltaX="0" DeltaY="0" Mask="4" />
+            </Command>
+            <Command Id="3" Name="Mouse Right Button">
+                <Event Type="Mouse" DeltaX="0" DeltaY="0" Mask="2" />
+            </Command>
+            <Command Id="4" Name="Keystroke W" IsKeystroke="true">
+                <Event Type="Key" Keyname="W" Up="false" KeynameUndo="W" />
+            </Command>
+            <Command Id="5" Name="Keystroke A" IsKeystroke="true">
+                <Event Type="Key" Keyname="A" Up="false" KeynameUndo="A" />
+            </Command>
+            <Command Id="6" Name="Keystroke S" IsKeystroke="true">
+                <Event Type="Key" Keyname="S" Up="false" KeynameUndo="S" />
+            </Command>
+            <Command Id="7" Name="Keystroke D" IsKeystroke="true">
+                <Event Type="Key" Keyname="D" Up="false" KeynameUndo="D" />
+            </Command>
+            <Command Id="8" Name="Keystroke E" IsKeystroke="true">
+                <Event Type="Key" Keyname="E" Up="false" KeynameUndo="E" />
+            </Command>
+            <Command Id="9" Name="Keystroke Space" IsKeystroke="true">
+                <Event Type="Key" Keyname="SPACEBAR" Up="false" KeynameUndo="SPACEBAR" />
+            </Command>
+            <Command Id="13" Name="Keystroke Esc" IsKeystroke="true">
+                <Event Type="Key" Keyname="ESCAPE" Up="false" KeynameUndo="ESCAPE" />
+            </Command>
+            <Command Id="14" Name="Keystroke 1" IsKeystroke="true">
+                <Event Type="Key" Keyname="1" Up="false" KeynameUndo="1" />
+            </Command>
+            <Command Id="15" Name="Keystroke 2" IsKeystroke="true">
+                <Event Type="Key" Keyname="2" Up="false" KeynameUndo="2" />
+            </Command>
+            <Command Id="16" Name="Keystroke 3" IsKeystroke="true">
+                <Event Type="Key" Keyname="3" Up="false" KeynameUndo="3" />
+            </Command>
+            <Command Id="17" Name="Keystroke 4" IsKeystroke="true">
+                <Event Type="Key" Keyname="4" Up="false" KeynameUndo="4" />
+            </Command>
+            <Command Id="18" Name="Keystroke 5" IsKeystroke="true">
+                <Event Type="Key" Keyname="5" Up="false" KeynameUndo="5" />
+            </Command>
+            <Command Id="19" Name="Keystroke 6" IsKeystroke="true">
+                <Event Type="Key" Keyname="6" Up="false" KeynameUndo="6" />
+            </Command>
+            <Command Id="20" Name="Keystroke 7" IsKeystroke="true">
+                <Event Type="Key" Keyname="7" Up="false" KeynameUndo="7" />
+            </Command>
+            <Command Id="21" Name="Keystroke 8" IsKeystroke="true">
+                <Event Type="Key" Keyname="8" Up="false" KeynameUndo="8" />
+            </Command>
+            <Command Id="22" Name="Keystroke 9" IsKeystroke="true">
+                <Event Type="Key" Keyname="9" Up="false" KeynameUndo="9" />
+            </Command>
+            <Command Id="25" Name="Keystroke Q" IsKeystroke="true">
+                <Event Type="Key" Keyname="Q" Up="false" KeynameUndo="Q" />
+            </Command>
+            <Command Id="26" Name="Keystroke Shift + " IsKeystroke="true">
+                <Event Type="Key" Keyname="LSHIFT" Up="false" KeynameUndo="LSHIFT" />
+            </Command>
+            <Command Id="27" Name="Keystroke Ctrl + " IsKeystroke="true">
+                <Event Type="Key" Keyname="LCTRL" Up="false" KeynameUndo="LCTRL" />
+            </Command>
+            <AxisCommand Id="10" Name="l-x-axis" RefIdMin="5" RefIdMax="7" />
+            <AxisCommand Id="11" Name="l-y-axis" RefIdMin="4" RefIdMax="6" />
+            <HatCommand Id="12" Name="8d-pad-WASD" HatType="8-way" RefIdN="4" RefIdS="6" RefIdW="5" RefIdE="7" RefIdNE="-1" RefIdNW="-1" RefIdSE="-1" RefIdSW="-1" />
+            <CycleCommand Id="23" Name="numcycle-up">
+                <CommandRef RefId="14" />
+                <CommandRef RefId="15" />
+                <CommandRef RefId="16" />
+                <CommandRef RefId="17" />
+                <CommandRef RefId="18" />
+                <CommandRef RefId="19" />
+                <CommandRef RefId="20" />
+                <CommandRef RefId="21" />
+                <CommandRef RefId="22" />
+            </CycleCommand>
+            <CycleCommand Id="24" Name="numcycle-down">
+                <CommandRef RefId="22" />
+                <CommandRef RefId="21" />
+                <CommandRef RefId="20" />
+                <CommandRef RefId="19" />
+                <CommandRef RefId="18" />
+                <CommandRef RefId="17" />
+                <CommandRef RefId="16" />
+                <CommandRef RefId="15" />
+                <CommandRef RefId="14" />
+            </CycleCommand>
+        </Macros>
+        <Assignments DeviceModel="44">
+            <AxisDynamics>
+                <AxisDef Axis="Z" Sign="1" Acceleration="50" Speed="100" Deadzone="0" DeadzoneSign="0" />
+                <AxisDef Axis="R" Sign="1" Acceleration="50" Speed="100" Deadzone="0" DeadzoneSign="0" />
+            </AxisDynamics>
+            <Command RefId="9">
+                <Control Type="Button" ID="1" />
+            </Command>
+            <Command RefId="13">
+                <Control Type="Button" ID="2" />
+            </Command>
+            <Command RefId="8">
+                <Control Type="Button" ID="3" />
+            </Command>
+            <Command RefId="25">
+                <Control Type="Button" ID="0" />
+            </Command>
+            <Command RefId="13">
+                <Control Type="Button" ID="9" />
+            </Command>
+            <Command RefId="27">
+                <Control Type="Button" ID="10" />
+            </Command>
+            <Command RefId="2">
+                <Control Type="Button" ID="11" />
+            </Command>
+            <Command RefId="3">
+                <Control Type="Button" ID="6" />
+            </Command>
+            <Command RefId="1">
+                <Control Type="Button" ID="7" />
+            </Command>
+            <Axis RefId="10">
+                <Control Type="Axis" ID="0" />
+            </Axis>
+            <Axis RefId="11">
+                <Control Type="Axis" ID="1" />
+            </Axis>
+            <Hat RefId="12">
+                <Control Type="POV" ID="0" />
+            </Hat>
+            <Cycle RefId="24">
+                <Control Type="Button" ID="4" />
+            </Cycle>
+            <Cycle RefId="23">
+                <Control Type="Button" ID="5" />
+            </Cycle>
+            <Mapping>
+                <Source Type="Axis" ID="0" />
+                <Destination Type="Axis" ID="1" />
+            </Mapping>
+            <Mapping>
+                <Source Type="Axis" ID="1" />
+                <Destination Type="Axis" ID="2" />
+            </Mapping>
+            <Mapping>
+                <Source Type="Axis" ID="2" />
+                <Destination Type="Mouse" ID="1" />
+            </Mapping>
+            <Mapping>
+                <Source Type="Axis" ID="3" />
+                <Destination Type="Mouse" ID="2" />
+            </Mapping>
+        </Assignments>
+    </Profile>
+</GameProfile>
