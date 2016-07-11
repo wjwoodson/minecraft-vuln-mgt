@@ -16,6 +16,7 @@ screen -S $SCREENNAME -X stuff '/say '$DATE' restoring world from backup '$BACKU
 sleep 5
 
 $MCPATH/stop-minecraft.sh
+sleep 5
 rm -rf $MCPATH'/'$WORLDNAME
 tar -C $MCPATH -xzf $BACKUPFILE
 $MCPATH/start-minecraft.sh
