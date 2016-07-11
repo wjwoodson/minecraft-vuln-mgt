@@ -585,8 +585,10 @@ P4BOOL=`grep $C8DATE $MCPATH'/count' | grep -c 'Found '$P4NAME`
 P4SCORE=$((P4SCORE + 80 * P4BOOL))
 
 # Subtract death penalties
-
-
+#P1SCORE=$((P1SCORE - P1DEATHS))
+#P2SCORE=$((P2SCORE - P2DEATHS))
+#P3SCORE=$((P3SCORE - P3DEATHS))
+#P4SCORE=$((P4SCORE - P4DEATHS))
 
 # report results
 echo 'Final Results:'
