@@ -60,9 +60,9 @@ screen -S $SCREENNAME -X stuff '/fill 222 4 217 244 8 239 air 0 replace stonebri
 sleep 120
 # Seal bases
 screen -S $SCREENNAME -X stuff '/fill 178 4 227 182 7 229 stonebrick 0 replace air 0'$(echo -ne '\015') # red
-screen -S $SCREENNAME -X stuff '/fill 232 4 279 235 7 283 stonebrick 0 replace air 0'$(echo -ne '\015') # yellow
+screen -S $SCREENNAME -X stuff '/fill 232 4 280 234 7 283 stonebrick 0 replace air 0'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 284 4 227 288 7 229 stonebrick 0 replace air 0'$(echo -ne '\015') # green
-# blue
+screen -S $SCREENNAME -X stuff '/fill 232 4 173 234 7 176 stonebrick 0 replace air 0'$(echo -ne '\015') # blue
 
 # Countdown for preparations
 echo '60 seconds remaining to prepare defenses...'
@@ -89,7 +89,7 @@ screen -S $SCREENNAME -X stuff '/say Cyber attacks beginning. Keep attackers out
 screen -S $SCREENNAME -X stuff '/fill 143 4 210 161 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/fill 215 4 300 251 8 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 305 4 210 323 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # green
-# blue
+screen -S $SCREENNAME -X stuff '/fill 215 4 138 251 8 156 air 0 replace stonebrick 2'$(echo -ne '\015') # blue
 for i in {1..6}; do
 	# red
 	screen -S $SCREENNAME -X stuff '/summon Zombie 149 4 211'$(echo -ne '\015')
@@ -107,6 +107,10 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 322 4 228'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/summon Zombie 316 4 245'$(echo -ne '\015')
 	# blue
+	screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 139'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 144'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 154'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 250 4 144'$(echo -ne '\015')
 done
 # poll for 2 minutes
 for i in {1..12}; do
@@ -142,9 +146,9 @@ for i in {1..12}; do
         P3SCORE=$((P3SCORE + 10 - SCORE))
 	# blue
 	P4DATE=`date +%H:%M:%S`
-        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne '\015')
-        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
-        screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[225,4,162,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[233,4,162,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/testfor @e[242,4,162,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
         screen -S minecraft -X hardcopy $MCPATH'/count'
         sleep 1
@@ -158,7 +162,7 @@ done
 screen -S $SCREENNAME -X stuff '/fill 143 0 210 161 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/fill 215 0 300 251 4 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 305 0 210 323 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # green
-# blue
+screen -S $SCREENNAME -X stuff '/fill 215 0 138 251 4 156 air 0 replace stonebrick 2'$(echo -ne '\015') # blue
 for i in {1..4}; do
         # red
         screen -S $SCREENNAME -X stuff '/summon Zombie 151 1 234'$(echo -ne '\015')
@@ -170,6 +174,8 @@ for i in {1..4}; do
 	screen -S $SCREENNAME -X stuff '/summon Zombie 310 1 236'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/summon Zombie 315 1 221'$(echo -ne '\015')
         # blue
+	screen -S $SCREENNAME -X stuff '/summon Zombie 242 1 155'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 228 1 148'$(echo -ne '\015')
 done
 echo '5 minutes remaining in game...'
 screen -S $SCREENNAME -X stuff '/say 5 minutes remaining in game...'$(echo -ne '\015')
@@ -184,7 +190,7 @@ sleep 60
 screen -S $SCREENNAME -X stuff '/fill 162 4 228 177 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') #red
 screen -S $SCREENNAME -X stuff '/fill 233 4 284 251 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 289 4 210 304 8 228 air 0 replace stonebrick 2'$(echo -ne '\015') # green
-# blue
+screen -S $SCREENNAME -X stuff '/fill 215 4 157 233 8 172 air 0 replace stonebrick 2'$(echo -ne '\015') # blue
 for i in {1..2}; do
         # red
         screen -S $SCREENNAME -X stuff '/summon Zombie 161 4 228'$(echo -ne '\015')
@@ -196,12 +202,14 @@ for i in {1..2}; do
 	screen -S $SCREENNAME -X stuff '/summon Zombie 303 4 211'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/summon Zombie 305 4 228'$(echo -ne '\015')
         # blue
+	screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 158'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 158'$(echo -ne '\015')
 done
 for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 176 4 245'$(echo -ne '\015') # red
         screen -S $SCREENNAME -X stuff '/summon Zombie 249 4 287'$(echo -ne '\015') # yellow
         screen -S $SCREENNAME -X stuff '/summon Zombie 291 4 211'$(echo -ne '\015') # green
-        # blue
+        screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 171'$(echo -ne '\015') # blue
 done
 echo '4 minutes remaining in game...'
 screen -S $SCREENNAME -X stuff '/say 4 minutes remaining in game...'$(echo -ne '\015')
@@ -213,18 +221,18 @@ sleep 120
 screen -S $SCREENNAME -X stuff '/fill 162 4 210 177 8 227 air 0 replace stonebrick 2'$(echo -ne '\015') #red
 screen -S $SCREENNAME -X stuff '/fill 215 4 284 232 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 289 4 229 304 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # green
-# blue
+screen -S $SCREENNAME -X stuff '/fill 234 4 157 351 8 172 air 0 replace stonebrick 2'$(echo -ne '\015') # blue
 for i in {1..2}; do
 	screen -S $SCREENNAME -X stuff '/summon Zombie 163 4 211'$(echo -ne '\015') # red
         screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 298'$(echo -ne '\015') # yellow
         screen -S $SCREENNAME -X stuff '/summon Zombie 303 4 245'$(echo -ne '\015') # green
-        # blue
+        screen -S $SCREENNAME -X stuff '/summon Zombie 250 4 158'$(echo -ne '\015') # blue
 done
 for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 176 4 211'$(echo -ne '\015') # red
         screen -S $SCREENNAME -X stuff '/summon Zombie 216 4 287'$(echo -ne '\015') # yellow
         screen -S $SCREENNAME -X stuff '/summon Zombie 291 4 245'$(echo -ne '\015') # green
-        # blue
+        screen -S $SCREENNAME -X stuff '/summon Zombie 249 4 171'$(echo -ne '\015') # blue
 done
 echo '2 minutes remaining in game...'
 screen -S $SCREENNAME -X stuff '/say 2 minutes remaining in game...'$(echo -ne '\015')
