@@ -13,8 +13,8 @@ Defend your network against cyber threats in a multiplayer Minecraft scenario. B
 ## Setup
 - Clone repo: `git clone https://github.com/wjwoodson/minecraft-vuln-mgt.git`
 - Configure whitelist.json and ops.json with player names/UUIDs   
-Example:   
-`+[
+Example whitelist.json:   
+`[
        {
                "uuid": 00000000-0000-0000-0000-000000000",
                "name": "player1"
@@ -27,7 +27,8 @@ Example:
 `screen -S minecraft -X stuff 'java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui'$(echo -ne '\015')`
 
 ## Operation
-- run the scenario: `./minecraft-vuln-mgt.sh` (4 player)   
+- run the scenario:   
+`./minecraft-vuln-mgt.sh` (4 player)   
 `./minecrave-vuln-mgt-2p.sh` (2 player)
 
 
