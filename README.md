@@ -1,22 +1,35 @@
-# Minecraft Vulnerability Management
-Educational 4 player minecraft scenario focusing on vulnerability management - identification, prioritization, triage. At the end of each round players can be scored on performance.
+# Minecraft Network Defense
+Educational 2-4 player minecraft scenario focusing on vulnerability management - identification, prioritization, triage. At the end of each round players can be scored on performance.
+
+Defend your network against cyber threats in a multiplayer Minecraft scenario. Build a firewall to keep attackers out of a defensive perimeter. Use cyber defense tools to stop the bad guys, and go hunting for cyber threat intelligence. But watch out, sophisticated attackers might already be inside your network!
 
 ## Requirements
 - Linux (Tested on Ubuntu 14.04 server) - sh scripts assume standard linux utilities
 - GNU screen
 - Oracle Java 8
 - Minecraft server jar (Tested on [Minecraft server 1.10](https://s3.amazonaws.com/Minecraft.Download/versions/1.10/minecraft_server.1.10.jar))
+- Valid minecraft licenses (2-4)
 
 ## Setup
 - Clone repo: `git clone https://github.com/wjwoodson/minecraft-vuln-mgt.git`
-- Configure whitelist.json and ops.json
+- Configure whitelist.json and ops.json with player names/UUIDs   
+Example:   
+`+[
+       {
+               "uuid": 00000000-0000-0000-0000-000000000",
+               "name": "player1"
+       }
+]`
+
 - Add minecraft server .jar to folder and run: `./start-minecraft.sh`
 - or start in a screen manually:  
 `screen -S minecraft -d -m`  
 `screen -S minecraft -X stuff 'java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui'$(echo -ne '\015')`
 
 ## Operation
-- run the scenario: `./minecraft-vuln-mgt.sh`
+- run the scenario: `./minecraft-vuln-mgt.sh` (4 player)   
+`./minecrave-vuln-mgt-2p.sh` (2 player)
+
 
 ## Additional resources
 - [Minecraft Network Defense scenario handout (PDF)](https://github.com/wjwoodson/minecraft-vuln-mgt/blob/master/resources/minecraft-network-defense-handout.pdf)
