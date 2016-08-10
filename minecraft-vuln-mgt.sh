@@ -22,8 +22,8 @@ P4INTEL=0 # blue
 # Restore from backup
 ./restore-world.sh $SAVEPOINT
 sleep 15
-echo 'Login players now.'
-sleep 105
+echo 'Login players now. (60 seconds to teleport)'
+sleep 60
 
 #Teleport players to starting zone
 screen -S $SCREENNAME -X stuff '/tp '$P1NAME' 233 4 228'$(echo -ne '\015') # red
@@ -34,14 +34,10 @@ echo 'Teleporting players to starting zone...'
 screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone...'$(echo -ne '\015')
 
 # Countdown to game start
-echo '!!! Minecraft Vulnerability Management !!!'
-echo 'The game will start in 60 seconds.'
-screen -S $SCREENNAME -X stuff '/say !!! Minecraft Vulnerability Management !!!'$(echo -ne '\015')
+echo '!!! Minecraft Network Defense !!!'
+echo 'The game will start in 10 seconds.'
+screen -S $SCREENNAME -X stuff '/say !!! Minecraft Network Defense !!!'$(echo -ne '\015')
 sleep 1
-screen -S $SCREENNAME -X stuff '/say The game will start in 60 seconds.'$(echo -ne '\015')
-sleep 30
-screen -S $SCREENNAME -X stuff '/say The game will start in 30 seconds...'$(echo -ne '\015')
-sleep 20
 screen -S $SCREENNAME -X stuff '/say The game will start in 10 seconds...'$(echo -ne '\015')
 sleep 5
 screen -S $SCREENNAME -X stuff '/say 5...'$(echo -ne '\015')
@@ -54,6 +50,15 @@ screen -S $SCREENNAME -X stuff '/say 2...'$(echo -ne '\015')
 sleep 1
 screen -S $SCREENNAME -X stuff '/say 1...'$(echo -ne '\015')
 sleep 1
+
+#Teleport players to starting zone
+screen -S $SCREENNAME -X stuff '/tp '$P1NAME' 233 4 228'$(echo -ne '\015') # red
+screen -S $SCREENNAME -X stuff '/tp '$P2NAME' 233 4 228'$(echo -ne '\015') # yellow
+screen -S $SCREENNAME -X stuff '/tp '$P3NAME' 233 4 228'$(echo -ne '\015') # green
+screen -S $SCREENNAME -X stuff '/tp '$P4NAME' 233 4 228'$(echo -ne '\015') # blue
+echo 'Teleporting players to starting zone once more...'
+screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone once more...'$(echo -ne '\015')
+
 echo 'Game beginning. You have 3 minutes to prepare your defensive perimeter.'
 screen -S $SCREENNAME -X stuff '/say Game beginning. You have 3 minutes to prepare your defensive perimeter.'$(echo -ne '\015')
 
