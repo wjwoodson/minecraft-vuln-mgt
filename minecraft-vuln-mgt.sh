@@ -1,6 +1,7 @@
 #!/bin/bash
 DATE=`date +%Y%m%d-%H%M%S`
 MCPATH=$HOME'/minecraft-vuln-mgt'
+JARFILE='minecraft_server.1.10.jar'
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 SAVEPOINT='20160711-003911'
@@ -18,9 +19,13 @@ P1INTEL=0 # red
 P2INTEL=0 # yellow
 P3INTEL=0 # green
 P4INTEL=0 # blue
+P1DEATHS=0 # red
+P2DEATHS=0 # yellow
+P3DEATHS=0 # green
+P4DEATHS=0 # blue
 
 # Restore from backup
-$MCPATH'/restore-world.sh' $SAVEPOINT $MCPATH
+$MCPATH'/restore-world.sh' $SAVEPOINT $MCPATH $JARFILE
 sleep 15
 echo '!!! Minecraft Network Defense !!!'
 echo 'Login players now. (60 seconds to teleport)'
@@ -64,7 +69,6 @@ echo 'Game beginning. You have 3 minutes to prepare your defensive perimeter.'
 screen -S $SCREENNAME -X stuff '/say Game beginning. You have 3 minutes to prepare your defensive perimeter.'$(echo -ne '\015')
 
 # Open gates to start the game
-# 180 seconds from gate open until threat spawns begin
 screen -S $SCREENNAME -X stuff '/fill 222 4 217 244 8 239 air 0 replace stonebrick 2'$(echo -ne '\015')
 
 # Wait until players clear the spawn zone
@@ -123,7 +127,7 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 154'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/summon Zombie 250 4 144'$(echo -ne '\015')
 done
-# poll for 2 minutes
+# poll for 120 minutes
 for i in {1..12}; do
 	# red
 	P1DATE=`date +%H:%M:%S`
@@ -131,19 +135,25 @@ for i in {1..12}; do
 	screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
 	screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
 	sleep 1
-	screen -S minecraft -X hardcopy $MCPATH'/count'
-	sleep 1
-	SCORE=`grep $P1DATE $MCPATH'/count' | grep -c 'Found Zombie'`
-	P1SCORE=$((P1SCORE + 10 - SCORE))
+	DEATHS=`grep -c "$P1NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P1DEATHS" ] ; then
+                P1DEATHS=$(($P1DEATHS + 1))
+                $MCPATH/revive-player.sh $P1NAME &
+        fi
+        SCORE=`grep $P1DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
+        P1SCORE=$((P1SCORE + 10 - SCORE))
 	# yellow
 	P2DATE=`date +%H:%M:%S`
 	screen -S $SCREENNAME -X stuff '/testfor @e[225,4,294,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,294,5,type=Zombie]'$(echo -ne '\015')
 	sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P2NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P2DEATHS" ] ; then
+                P2DEATHS=$(($P2DEATHS + 1))
+                $MCPATH/revive-player.sh $P2NAME &
+        fi
+        SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
 	# green
 	P3DATE=`date +%H:%M:%S`
@@ -151,9 +161,12 @@ for i in {1..12}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P3DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P3NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P3DEATHS" ] ; then
+                P3DEATHS=$(($P3DEATHS + 1))
+                $MCPATH/revive-player.sh $P3NAME &
+        fi
+        SCORE=`grep $P3DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P3SCORE=$((P3SCORE + 10 - SCORE))
 	# blue
 	P4DATE=`date +%H:%M:%S`
@@ -161,11 +174,14 @@ for i in {1..12}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,162,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,162,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P4NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P4DEATHS" ] ; then
+                P4DEATHS=$(($P4DEATHS + 1))
+                $MCPATH/revive-player.sh $P4NAME &
+        fi
+        SCORE=`grep $P4DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P4SCORE=$((P4SCORE + 10 - SCORE))
-	sleep 2
+	sleep 6
 done
 
 
@@ -202,9 +218,12 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P1DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P1NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P1DEATHS" ] ; then
+                P1DEATHS=$(($P1DEATHS + 1))
+                $MCPATH/revive-player.sh $P1NAME &
+        fi
+        SCORE=`grep $P1DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P1SCORE=$((P1SCORE + 10 - SCORE))
         # yellow
         P2DATE=`date +%H:%M:%S`
@@ -212,9 +231,12 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,294,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P2NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P2DEATHS" ] ; then
+                P2DEATHS=$(($P2DEATHS + 1))
+                $MCPATH/revive-player.sh $P2NAME &
+        fi
+        SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
         # green
         P3DATE=`date +%H:%M:%S`
@@ -222,9 +244,12 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P3DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P3NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P3DEATHS" ] ; then
+                P3DEATHS=$(($P3DEATHS + 1))
+                $MCPATH/revive-player.sh $P3NAME &
+        fi
+        SCORE=`grep $P3DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P3SCORE=$((P3SCORE + 10 - SCORE))
         # blue
         P4DATE=`date +%H:%M:%S`
@@ -232,11 +257,14 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,162,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,162,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P4NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P4DEATHS" ] ; then
+                P4DEATHS=$(($P4DEATHS + 1))
+                $MCPATH/revive-player.sh $P4NAME &
+        fi
+        SCORE=`grep $P4DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P4SCORE=$((P4SCORE + 10 - SCORE))
-        sleep 2
+        sleep 6
 done
 
 # Begin stage 3 (120 seconds)
@@ -275,9 +303,12 @@ for i in {1..12}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P1DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P1NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P1DEATHS" ] ; then
+                P1DEATHS=$(($P1DEATHS + 1))
+                $MCPATH/revive-player.sh $P1NAME &
+        fi
+        SCORE=`grep $P1DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P1SCORE=$((P1SCORE + 10 - SCORE))
         # yellow
         P2DATE=`date +%H:%M:%S`
@@ -285,19 +316,25 @@ for i in {1..12}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,294,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P2NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P2DEATHS" ] ; then
+                P2DEATHS=$(($P2DEATHS + 1))
+                $MCPATH/revive-player.sh $P2NAME &
+        fi
+        SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
-        # green
+	# green
         P3DATE=`date +%H:%M:%S`
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,236,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P3DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P3NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P3DEATHS" ] ; then
+                P3DEATHS=$(($P3DEATHS + 1))
+                $MCPATH/revive-player.sh $P3NAME &
+        fi
+        SCORE=`grep $P3DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P3SCORE=$((P3SCORE + 10 - SCORE))
         # blue
         P4DATE=`date +%H:%M:%S`
@@ -305,11 +342,14 @@ for i in {1..12}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,162,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,162,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P4NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P4DEATHS" ] ; then
+                P4DEATHS=$(($P4DEATHS + 1))
+                $MCPATH/revive-player.sh $P4NAME &
+        fi
+        SCORE=`grep $P4DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P4SCORE=$((P4SCORE + 10 - SCORE))
-        sleep 2
+        sleep 6
 done
 
 # Begin stage 4 (120 seconds)
@@ -340,9 +380,12 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P1DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P1NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P1DEATHS" ] ; then
+                P1DEATHS=$(($P1DEATHS + 1))
+                $MCPATH/revive-player.sh $P1NAME &
+        fi
+        SCORE=`grep $P1DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P1SCORE=$((P1SCORE + 10 - SCORE))
         # yellow
         P2DATE=`date +%H:%M:%S`
@@ -350,9 +393,12 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,294,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P2NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P2DEATHS" ] ; then
+                P2DEATHS=$(($P2DEATHS + 1))
+                $MCPATH/revive-player.sh $P2NAME &
+        fi
+        SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
         # green
         P3DATE=`date +%H:%M:%S`
@@ -360,9 +406,12 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P3DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P3NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P3DEATHS" ] ; then
+                P3DEATHS=$(($P3DEATHS + 1))
+                $MCPATH/revive-player.sh $P3NAME &
+        fi
+        SCORE=`grep $P3DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P3SCORE=$((P3SCORE + 10 - SCORE))
         # blue
         P4DATE=`date +%H:%M:%S`
@@ -370,11 +419,14 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,162,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,162,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P4NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P4DEATHS" ] ; then
+                P4DEATHS=$(($P4DEATHS + 1))
+                $MCPATH/revive-player.sh $P4NAME &
+        fi
+        SCORE=`grep $P4DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P4SCORE=$((P4SCORE + 10 - SCORE))
-        sleep 2
+        sleep 6
 done
 
 # poll for 50 seconds
@@ -386,19 +438,25 @@ for i in {1..5}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P1DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P1NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P1DEATHS" ] ; then
+                P1DEATHS=$(($P1DEATHS + 1))
+                $MCPATH/revive-player.sh $P1NAME &
+        fi
+        SCORE=`grep $P1DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P1SCORE=$((P1SCORE + 10 - SCORE))
         # yellow
         P2DATE=`date +%H:%M:%S`
         screen -S $SCREENNAME -X stuff '/testfor @e[225,4,294,5,type=Zombie]'$(echo -ne '\015')
-        screen -S $SCREENNAME -X stuff '/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
+        screen -S $SCREENNAME -X stuff 'i/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,294,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P2NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P2DEATHS" ] ; then
+                P2DEATHS=$(($P2DEATHS + 1))
+                $MCPATH/revive-player.sh $P2NAME &
+        fi
+        SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
         # green
         P3DATE=`date +%H:%M:%S`
@@ -406,9 +464,12 @@ for i in {1..5}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,228,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[299,4,220,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P3DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P3NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P3DEATHS" ] ; then
+                P3DEATHS=$(($P3DEATHS + 1))
+                $MCPATH/revive-player.sh $P3NAME &
+        fi
+        SCORE=`grep $P3DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P3SCORE=$((P3SCORE + 10 - SCORE))
         # blue
         P4DATE=`date +%H:%M:%S`
@@ -416,11 +477,14 @@ for i in {1..5}; do
         screen -S $SCREENNAME -X stuff '/testfor @e[233,4,162,5,type=Zombie]'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/testfor @e[242,4,162,5,type=Zombie]'$(echo -ne '\015')
         sleep 1
-        screen -S minecraft -X hardcopy $MCPATH'/count'
-        sleep 1
-        SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+	DEATHS=`grep -c "$P4NAME was slain by" $MCPATH'/logs/latest.log'`
+        if [ "$DEATHS" -gt "$P4DEATHS" ] ; then
+                P4DEATHS=$(($P4DEATHS + 1))
+                $MCPATH/revive-player.sh $P4NAME &
+        fi
+        SCORE=`grep $P4DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P4SCORE=$((P4SCORE + 10 - SCORE))
-        sleep 2
+        sleep 6
 done
 
 # Countdown for end of game
@@ -446,9 +510,12 @@ screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne 
 screen -S $SCREENNAME -X stuff '/testfor @e[167,4,228,5,type=Zombie]'$(echo -ne '\015')
 screen -S $SCREENNAME -X stuff '/testfor @e[167,4,220,5,type=Zombie]'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
-SCORE=`grep $P1DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+DEATHS=`grep -c "$P1NAME was slain by" $MCPATH'/logs/latest.log'`
+if [ "$DEATHS" -gt "$P1DEATHS" ] ; then
+        P1DEATHS=$(($P1DEATHS + 1))
+        $MCPATH/revive-player.sh $P1NAME &
+fi
+SCORE=`grep $P1DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
 P1SCORE=$((P1SCORE + 10 - SCORE))
 # yellow
 P2DATE=`date +%H:%M:%S`
@@ -456,9 +523,12 @@ screen -S $SCREENNAME -X stuff '/testfor @e[225,4,294,5,type=Zombie]'$(echo -ne 
 screen -S $SCREENNAME -X stuff '/testfor @e[233,4,294,5,type=Zombie]'$(echo -ne '\015')
 screen -S $SCREENNAME -X stuff '/testfor @e[242,4,294,5,type=Zombie]'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
-SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+DEATHS=`grep -c "$P2NAME was slain by" $MCPATH'/logs/latest.log'`
+if [ "$DEATHS" -gt "$P2DEATHS" ] ; then
+        P2DEATHS=$(($P2DEATHS + 1))
+        $MCPATH/revive-player.sh $P2NAME &
+fi
+SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
 P2SCORE=$((P2SCORE + 10 - SCORE))
 # green
 P3DATE=`date +%H:%M:%S`
@@ -466,9 +536,12 @@ screen -S $SCREENNAME -X stuff '/testfor @e[299,4,236,5,type=Zombie]'$(echo -ne 
 screen -S $SCREENNAME -X stuff '/testfor @e[299,4,228,5,type=Zombie]'$(echo -ne '\015')
 screen -S $SCREENNAME -X stuff '/testfor @e[299,4,220,5,type=Zombie]'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
-SCORE=`grep $P3DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+DEATHS=`grep -c "$P3NAME was slain by" $MCPATH'/logs/latest.log'`
+if [ "$DEATHS" -gt "$P3DEATHS" ] ; then
+        P3DEATHS=$(($P3DEATHS + 1))
+        $MCPATH/revive-player.sh $P3NAME &
+fi
+SCORE=`grep $P3DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
 P3SCORE=$((P3SCORE + 10 - SCORE))
 # blue
 P4DATE=`date +%H:%M:%S`
@@ -476,9 +549,12 @@ screen -S $SCREENNAME -X stuff '/testfor @e[225,4,162,5,type=Zombie]'$(echo -ne 
 screen -S $SCREENNAME -X stuff '/testfor @e[233,4,162,5,type=Zombie]'$(echo -ne '\015')
 screen -S $SCREENNAME -X stuff '/testfor @e[242,4,162,5,type=Zombie]'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
-SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
+DEATHS=`grep -c "$P4NAME was slain by" $MCPATH'/logs/latest.log'`
+if [ "$DEATHS" -gt "$P4DEATHS" ] ; then
+        P4DEATHS=$(($P4DEATHS + 1))
+        $MCPATH/revive-player.sh $P4NAME &
+fi
+SCORE=`grep $P4DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
 P4SCORE=$((P4SCORE + 10 - SCORE))
 
 # Add cyber threat intelligence bonuses
@@ -487,8 +563,6 @@ screen -S $SCREENNAME -X stuff '/say Adding cyber threat intel bonuses...'$(echo
 # If 1
 C1DATE=`date +%H:%M:%S` 
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:1b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
 P1BOOL=`grep $C1DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((20 * P1BOOL))
@@ -502,8 +576,6 @@ P4INTEL=$((20 * P4BOOL))
 C2DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:2b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
 P1BOOL=`grep $C2DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((40 * P1BOOL))
 P2BOOL=`grep $C2DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
@@ -515,8 +587,6 @@ P4INTEL=$((40 * P4BOOL))
 # If 3
 C3DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:3b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
 P1BOOL=`grep $C3DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((60 * P1BOOL))
@@ -530,8 +600,6 @@ P4INTEL=$((60 * P4BOOL))
 C4DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:4b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
 P1BOOL=`grep $C4DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((80 * P1BOOL))
 P2BOOL=`grep $C4DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
@@ -543,8 +611,6 @@ P4INTEL=$((80 * P4BOOL))
 # If 5
 C5DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:5b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
 P1BOOL=`grep $C5DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((140 * P1BOOL))
@@ -558,8 +624,6 @@ P4INTEL=$((140 * P4BOOL))
 C6DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:6b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
 P1BOOL=`grep $C6DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((180 * P1BOOL))
 P2BOOL=`grep $C6DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
@@ -572,8 +636,6 @@ P4INTEL=$((180 * P4BOOL))
 C7DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:7b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
-sleep 1
 P1BOOL=`grep $C7DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((220 * P1BOOL))
 P2BOOL=`grep $C7DATE $MCPATH'/count' | grep -c 'Found '$P2NAME`
@@ -585,8 +647,6 @@ P4INTEL=$((220 * P4BOOL))
 # If 8
 C8DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:8b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/count'
 sleep 1
 P1BOOL=`grep $C8DATE $MCPATH'/count' | grep -c 'Found '$P1NAME`
 P1INTEL=$((300 * P1BOOL))
@@ -604,19 +664,19 @@ P3SCORE=$((P3SCORE + P3INTEL))
 P4SCORE=$((P4SCORE + P4INTEL))
 
 # Subtract death penalties
-#P1SCORE=$((P1SCORE - P1DEATHS))
-#P2SCORE=$((P2SCORE - P2DEATHS))
-#P3SCORE=$((P3SCORE - P3DEATHS))
-#P4SCORE=$((P4SCORE - P4DEATHS))
+P1SCORE=$((P1SCORE - P1DEATHS * 20))
+P2SCORE=$((P2SCORE - P2DEATHS * 20))
+P3SCORE=$((P3SCORE - P3DEATHS * 20))
+P4SCORE=$((P4SCORE - P4DEATHS * 20))
 
 # report results
 echo 'Final Results:'
 screen -S $SCREENNAME -X stuff '/say Final Results:'$(echo -ne '\015')
-echo $P1NAME' : '$P1SCORE' points ('$P1INTEL' threat intelligence)'
-screen -S $SCREENNAME -X stuff '/say '$P1NAME' : '$P1SCORE' points ('$P1INTEL' threat intelligence)'$(echo -ne '\015')
-echo $P2NAME' : '$P2SCORE' points ('$P2INTEL' threat intelligence)'
-screen -S $SCREENNAME -X stuff '/say '$P2NAME' : '$P2SCORE' points ('$P2INTEL' threat intelligence)'$(echo -ne '\015')
-echo $P3NAME' : '$P3SCORE' points ('$P3INTEL' threat intelligence)'
-screen -S $SCREENNAME -X stuff '/say '$P3NAME' : '$P3SCORE' points ('$P3INTEL' threat intelligence)'$(echo -ne '\015')
-echo $P4NAME' : '$P4SCORE' points ('$P4INTEL' threat intelligence)'
-screen -S $SCREENNAME -X stuff '/say '$P4NAME' : '$P4SCORE' points ('$P4INTEL' threat intelligence)'$(echo -ne '\015')
+echo $P1NAME' : '$P1SCORE' points ('$P1INTEL' threat intelligence, '$P1DEATHS' deaths)'
+screen -S $SCREENNAME -X stuff '/say '$P1NAME' : '$P1SCORE' points ('$P1INTEL' threat intelligence, '$P1DEATHS' deaths)'$(echo -ne '\015')
+echo $P2NAME' : '$P2SCORE' points ('$P2INTEL' threat intelligence, '$P2DEATHS' deaths)'
+screen -S $SCREENNAME -X stuff '/say '$P2NAME' : '$P2SCORE' points ('$P2INTEL' threat intelligence, '$P2DEATHS' deaths)'$(echo -ne '\015')
+echo $P3NAME' : '$P3SCORE' points ('$P3INTEL' threat intelligence, '$P3DEATHS' deaths)'
+screen -S $SCREENNAME -X stuff '/say '$P3NAME' : '$P3SCORE' points ('$P3INTEL' threat intelligence, '$P3DEATHS' deaths)'$(echo -ne '\015')
+echo $P4NAME' : '$P4SCORE' points ('$P4INTEL' threat intelligence, '$P4DEATHS' deaths)'
+screen -S $SCREENNAME -X stuff '/say '$P4NAME' : '$P4SCORE' points ('$P4INTEL' threat intelligence, '$P4DEATHS' deaths)'$(echo -ne '\015')
