@@ -18,6 +18,11 @@ if [ $2 ] ; then
         MCPATH=$2
 fi
 
+# set JARFILE provided in $3, else use default
+if [ $2 ] ; then
+        JARFILE=$3
+fi
+
 echo $DATE' restoring world from backup '$BACKUPFILE
 screen -S $SCREENNAME -X stuff '/say '$DATE' restoring world from backup '$BACKUPFILE$(echo -ne '\015')
 sleep 5

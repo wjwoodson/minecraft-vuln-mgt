@@ -1,7 +1,7 @@
 #!/bin/bash
 DATE=`date +%Y%m%d-%H%M%S`
 MCPATH=$HOME'/minecraft-vuln-mgt'
-JARFILE=''
+JARFILE='minecraft_server.1.10.jar'
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 SAVEPOINT='20160711-003911'
@@ -17,7 +17,7 @@ P1DEATHS=0 # red
 P2DEATHS=0 # yellow
 
 # Restore from backup
-$MCPATH'/restore-world.sh' $SAVEPOINT $MCPATH
+$MCPATH'/restore-world.sh' $SAVEPOINT $MCPATH $JARFILE
 sleep 15
 echo '!!! Minecraft Network Defense !!!'
 echo 'Login players now. (60 seconds to teleport)'
