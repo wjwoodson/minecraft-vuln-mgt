@@ -178,7 +178,7 @@ for i in {1..6}; do
         fi
         SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
-        sleep 6
+        sleep 8
 done
 
 # Begin stage 3 (60 seconds)
@@ -227,7 +227,7 @@ for i in {1..6}; do
         fi
         SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
-        sleep 6
+        sleep 8
 done
 
 # Begin stage 4 (120 seconds)
@@ -272,7 +272,7 @@ for i in {1..6}; do
         fi
         SCORE=`grep $P2DATE $MCPATH'/logs/latest.log' | grep -c 'Found Zombie'`
         P2SCORE=$((P2SCORE + 10 - SCORE))
-        sleep 6
+        sleep 8
 done
 
 # poll for 50 seconds
@@ -358,8 +358,6 @@ screen -S $SCREENNAME -X stuff '/say Adding cyber threat intel bonuses...'$(echo
 C1DATE=`date +%H:%M:%S` 
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:1b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
-sleep 1
 P1BOOL=`grep $C1DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((20 * P1BOOL))
 P2BOOL=`grep $C1DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P2NAME`
@@ -367,8 +365,6 @@ P2INTEL=$((20 * P2BOOL))
 # If 2
 C2DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:2b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
 sleep 1
 P1BOOL=`grep $C2DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((40 * P1BOOL))
@@ -378,8 +374,6 @@ P2INTEL=$((40 * P2BOOL))
 C3DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:3b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
-sleep 1
 P1BOOL=`grep $C3DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((60 * P1BOOL))
 P2BOOL=`grep $C3DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P2NAME`
@@ -387,8 +381,6 @@ P2INTEL=$((60 * P2BOOL))
 # If 4
 C4DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:4b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
 sleep 1
 P1BOOL=`grep $C4DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((80 * P1BOOL))
@@ -398,8 +390,6 @@ P2INTEL=$((80 * P2BOOL))
 C5DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:5b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
-sleep 1
 P1BOOL=`grep $C5DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((140 * P1BOOL))
 P2BOOL=`grep $C5DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P2NAME`
@@ -407,8 +397,6 @@ P2INTEL=$((140 * P2BOOL))
 # If 6
 C6DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:6b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
 sleep 1
 P1BOOL=`grep $C6DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((180 * P1BOOL))
@@ -418,8 +406,6 @@ P2INTEL=$((180 * P2BOOL))
 C7DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:7b}]}'$(echo -ne '\015')
 sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
-sleep 1
 P1BOOL=`grep $C7DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((220 * P1BOOL))
 P2BOOL=`grep $C7DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P2NAME`
@@ -427,8 +413,6 @@ P2INTEL=$((220 * P2BOOL))
 # If 8
 C8DATE=`date +%H:%M:%S`
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:8b}]}'$(echo -ne '\015')
-sleep 1
-screen -S minecraft -X hardcopy $MCPATH'/logs/latest.log'
 sleep 1
 P1BOOL=`grep $C8DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((300 * P1BOOL))
