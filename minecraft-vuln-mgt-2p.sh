@@ -1,6 +1,7 @@
 #!/bin/bash
 DATE=`date +%Y%m%d-%H%M%S`
-MCPATH=$HOME'/minecraft'
+MCPATH=$HOME'/minecraft-vuln-mgt'
+JARFILE=''
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 SAVEPOINT='20160711-003911'
@@ -14,19 +15,19 @@ P1INTEL=0 # red
 P2INTEL=0 # yellow
 
 # Restore from backup
-./restore-world.sh $SAVEPOINT
+$MCPATH'/restore-world.sh' $SAVEPOINT $MCPATH
 sleep 15
+echo '!!! Minecraft Network Defense !!!'
 echo 'Login players now. (60 seconds to teleport)'
 sleep 60
 
-#Teleport players to starting zone
+# Teleport players to starting zone
 screen -S $SCREENNAME -X stuff '/tp '$P1NAME' 233 4 228'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/tp '$P2NAME' 233 4 228'$(echo -ne '\015') # yellow
 echo 'Teleporting players to starting zone...'
 screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone...'$(echo -ne '\015')
 
 # Countdown to game start
-echo '!!! Minecraft Network Defense !!!'
 echo 'The game will start in 10 seconds.'
 screen -S $SCREENNAME -X stuff '/say !!! Minecraft Network Defense !!!'$(echo -ne '\015')
 sleep 1
@@ -43,12 +44,13 @@ sleep 1
 screen -S $SCREENNAME -X stuff '/say 1...'$(echo -ne '\015')
 sleep 1
 
-#Teleport players to starting zone
+# Teleport players to starting zone
 screen -S $SCREENNAME -X stuff '/tp '$P1NAME' 233 4 228'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/tp '$P2NAME' 233 4 228'$(echo -ne '\015') # yellow
 echo 'Teleporting players to starting zone once more...'
 screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone once more...'$(echo -ne '\015')
 
+# 180 seconds from gate open until threat spawns begin
 echo 'Game beginning. You have 3 minutes to prepare your defensive perimeter.'
 screen -S $SCREENNAME -X stuff '/say Game beginning. You have 3 minutes to prepare your defensive perimeter.'$(echo -ne '\015')
 
@@ -82,7 +84,7 @@ sleep 1
 echo 'Cyber attacks beginning. Keep attackers outside of your defensive perimeter for 7 minutes.'
 screen -S $SCREENNAME -X stuff '/say Cyber attacks beginning. Keep attackers outside of your defensive perimeter for 7 minutes.'$(echo -ne '\015')
 
-# Begin stage 1
+# Begin stage 1 (120 seconds)
 screen -S $SCREENNAME -X stuff '/fill 143 4 210 161 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/fill 215 4 300 251 8 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 for i in {1..6}; do
@@ -97,7 +99,7 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 233 4 317'$(echo -ne '\015')
         screen -S $SCREENNAME -X stuff '/summon Zombie 250 4 312'$(echo -ne '\015')
 done
-# poll for 2 minutes
+# poll for 120 seconds
 for i in {1..12}; do
 	# red
 	P1DATE=`date +%H:%M:%S`
@@ -123,7 +125,7 @@ for i in {1..12}; do
 done
 
 
-# Begin stage 2. Alert that cyber threat intel is available.
+# Begin stage 2 (60 seconds). Alert that cyber threat intel is available.
 screen -S $SCREENNAME -X stuff '/fill 143 0 210 161 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/fill 215 0 300 251 4 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 for i in {1..4}; do
@@ -165,7 +167,7 @@ for i in {1..6}; do
         sleep 6
 done
 
-# Begin stage 3
+# Begin stage 3 (60 seconds)
 screen -S $SCREENNAME -X stuff '/fill 162 4 228 177 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') #red
 screen -S $SCREENNAME -X stuff '/fill 233 4 284 251 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 for i in {1..2}; do
@@ -180,11 +182,11 @@ for i in {1..6}; do
         screen -S $SCREENNAME -X stuff '/summon Zombie 176 4 245'$(echo -ne '\015') # red
         screen -S $SCREENNAME -X stuff '/summon Zombie 249 4 287'$(echo -ne '\015') # yellow
 done
-echo '4 minutes remaining in game...'
-screen -S $SCREENNAME -X stuff '/say 4 minutes remaining in game...'$(echo -ne '\015')
+echo '3 minutes remaining in game...'
+screen -S $SCREENNAME -X stuff '/say 3 minutes remaining in game...'$(echo -ne '\015')
 
-# poll for 2 minutes
-for i in {1..12}; do
+# poll for 1 minute
+for i in {1..6}; do
         # red
         P1DATE=`date +%H:%M:%S`
         screen -S $SCREENNAME -X stuff '/testfor @e[167,4,236,5,type=Zombie]'$(echo -ne '\015')
@@ -208,7 +210,7 @@ for i in {1..12}; do
         sleep 6
 done
 
-# Begin stage 4
+# Begin stage 4 (120 seconds)
 screen -S $SCREENNAME -X stuff '/fill 162 4 210 177 8 227 air 0 replace stonebrick 2'$(echo -ne '\015') #red
 screen -S $SCREENNAME -X stuff '/fill 215 4 284 232 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 for i in {1..2}; do
@@ -312,6 +314,8 @@ SCORE=`grep $P2DATE $MCPATH'/count' | grep -c 'Found Zombie'`
 P2SCORE=$((P2SCORE + 10 - SCORE))
 
 # Add cyber threat intelligence bonuses
+echo 'Adding cyber threat intel bonuses...'
+screen -S $SCREENNAME -X stuff '/say Adding cyber threat intel bonuses...'$(echo -ne '\015')
 # If 1
 C1DATE=`date +%H:%M:%S` 
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:1b}]}'$(echo -ne '\015')

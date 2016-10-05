@@ -1,6 +1,6 @@
 #!/bin/bash
 DATE=`date +%Y%m%d-%H%M%S`
-MCPATH=$HOME'/minecraft'
+MCPATH=$HOME'/minecraft-vuln-mgt'
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 SAVEPOINT='20160711-003911'
@@ -20,12 +20,13 @@ P3INTEL=0 # green
 P4INTEL=0 # blue
 
 # Restore from backup
-./restore-world.sh $SAVEPOINT
+$MCPATH'/restore-world.sh' $SAVEPOINT $MCPATH
 sleep 15
+echo '!!! Minecraft Network Defense !!!'
 echo 'Login players now. (60 seconds to teleport)'
 sleep 60
 
-#Teleport players to starting zone
+# Teleport players to starting zone
 screen -S $SCREENNAME -X stuff '/tp '$P1NAME' 233 4 228'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/tp '$P2NAME' 233 4 228'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/tp '$P3NAME' 233 4 228'$(echo -ne '\015') # green
@@ -34,7 +35,6 @@ echo 'Teleporting players to starting zone...'
 screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone...'$(echo -ne '\015')
 
 # Countdown to game start
-echo '!!! Minecraft Network Defense !!!'
 echo 'The game will start in 10 seconds.'
 screen -S $SCREENNAME -X stuff '/say !!! Minecraft Network Defense !!!'$(echo -ne '\015')
 sleep 1
@@ -59,10 +59,12 @@ screen -S $SCREENNAME -X stuff '/tp '$P4NAME' 233 4 228'$(echo -ne '\015') # blu
 echo 'Teleporting players to starting zone once more...'
 screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone once more...'$(echo -ne '\015')
 
+# 180 seconds from gate open until threat spawns begin
 echo 'Game beginning. You have 3 minutes to prepare your defensive perimeter.'
 screen -S $SCREENNAME -X stuff '/say Game beginning. You have 3 minutes to prepare your defensive perimeter.'$(echo -ne '\015')
 
 # Open gates to start the game
+# 180 seconds from gate open until threat spawns begin
 screen -S $SCREENNAME -X stuff '/fill 222 4 217 244 8 239 air 0 replace stonebrick 2'$(echo -ne '\015')
 
 # Wait until players clear the spawn zone
@@ -94,7 +96,7 @@ sleep 1
 echo 'Cyber attacks beginning. Keep attackers outside of your defensive perimeter for 7 minutes.'
 screen -S $SCREENNAME -X stuff '/say Cyber attacks beginning. Keep attackers outside of your defensive perimeter for 7 minutes.'$(echo -ne '\015')
 
-# Begin stage 1
+# Begin stage 1 (120 seconds)
 screen -S $SCREENNAME -X stuff '/fill 143 4 210 161 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/fill 215 4 300 251 8 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 305 4 210 323 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # green
@@ -167,7 +169,7 @@ for i in {1..12}; do
 done
 
 
-# Begin stage 2. Alert that cyber threat intel is available.
+# Begin stage 2 (60 seconds). Alert that cyber threat intel is available.
 screen -S $SCREENNAME -X stuff '/fill 143 0 210 161 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # red
 screen -S $SCREENNAME -X stuff '/fill 215 0 300 251 4 318 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 305 0 210 323 4 246 air 0 replace stonebrick 2'$(echo -ne '\015') # green
@@ -237,7 +239,7 @@ for i in {1..6}; do
         sleep 2
 done
 
-# Begin stage 3
+# Begin stage 3 (120 seconds)
 screen -S $SCREENNAME -X stuff '/fill 162 4 228 177 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') #red
 screen -S $SCREENNAME -X stuff '/fill 233 4 284 251 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 289 4 210 304 8 228 air 0 replace stonebrick 2'$(echo -ne '\015') # green
@@ -310,7 +312,7 @@ for i in {1..12}; do
         sleep 2
 done
 
-# Begin stage 4
+# Begin stage 4 (120 seconds)
 screen -S $SCREENNAME -X stuff '/fill 162 4 210 177 8 227 air 0 replace stonebrick 2'$(echo -ne '\015') #red
 screen -S $SCREENNAME -X stuff '/fill 215 4 284 232 8 299 air 0 replace stonebrick 2'$(echo -ne '\015') # yellow
 screen -S $SCREENNAME -X stuff '/fill 289 4 229 304 8 246 air 0 replace stonebrick 2'$(echo -ne '\015') # green
@@ -480,6 +482,8 @@ SCORE=`grep $P4DATE $MCPATH'/count' | grep -c 'Found Zombie'`
 P4SCORE=$((P4SCORE + 10 - SCORE))
 
 # Add cyber threat intelligence bonuses
+echo 'Adding cyber threat intel bonuses...'
+screen -S $SCREENNAME -X stuff '/say Adding cyber threat intel bonuses...'$(echo -ne '\015')
 # If 1
 C1DATE=`date +%H:%M:%S` 
 screen -S minecraft -X stuff '/testfor @a {Inventory:[{id:"minecraft:wool",Damage:5s,Count:1b}]}'$(echo -ne '\015')

@@ -1,6 +1,6 @@
 #!/bin/bash
 DATE=`date +%Y%m%d-%H%M%S`
-MCPATH=$HOME'/minecraft'
+MCPATH=$HOME'/minecraft-vuln-mgt'
 WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 

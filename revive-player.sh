@@ -1,6 +1,4 @@
 DATE=`date +%Y%m%d-%H%M%S`
-MCPATH=$HOME'/minecraft'
-WORLDNAME='minecraft-vuln-mgt'
 SCREENNAME='minecraft'
 
 P1NAME='minesecedu_p1' # red
@@ -8,10 +6,12 @@ P2NAME='minesecedu_p2' # yellow
 P3NAME='minesecedu_p3' # green
 P4NAME='minesecedu_p4' # blue
 
+# require an argument in $1 to select player to revive
 if [ -z $1 ] ; then
         echo 'revive-player.sh requires a player name to revive!'
         exit 1
 fi
+
 
 echo 'Reviving player '$1' in 10 seconds...'
 screen -S $SCREENNAME -X stuff '/say Reviving player '$1' in 10 seconds...'$(echo -ne '\015')
