@@ -417,7 +417,7 @@ sleep 1
 SCORE=`grep $C8DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P1NAME`
 P1INTEL=$((P1INTEL + 300 * SCORE))
 SCORE=`grep $C8DATE $MCPATH'/logs/latest.log' | grep -c 'Found '$P2NAME`
-P2INTEL=$((P@INTEL + 300 * SCORE))
+P2INTEL=$((P2INTEL + 300 * SCORE))
 
 # Add intel score to total score
 P1SCORE=$((P1SCORE + P1INTEL))
