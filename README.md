@@ -25,7 +25,8 @@ Example whitelist.json:
 ## Operation
 - run the scenario:   
 `./minecraft-vuln-mgt.sh` (4 player)   
-`./minecrave-vuln-mgt-2p.sh` (2 player)
+`./minecraft-vuln-mgt-2p.sh` (2 player)
+- Connect players to Multiplayer -> Direct Connect -> `<your_host>:9800`
 
 
 ## Additional resources
