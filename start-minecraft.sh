@@ -1,5 +1,5 @@
 #/bin/bash
-MCPATH=$HOME'/minecraft-vulnmgt/'
+MCPATH=$HOME'/minecraft-vul-nmgt/'
 JARFILE='minecraft_server.1.10.jar'
 MEMORY_ALLOC='2048M'
 SCREENNAME='minecraft'
