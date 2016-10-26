@@ -39,6 +39,12 @@ screen -S $SCREENNAME -X stuff '/tp '$P4NAME' 233 4 228'$(echo -ne '\015') # blu
 echo 'Teleporting players to starting zone...'
 screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone...'$(echo -ne '\015')
 
+# Tell each player which base to run to (again)
+screen -S $SCREENNAME -X stuff '/tell '$P1NAME' You are the RED player (player 1)'$(echo -ne '\015') # red
+screen -S $SCREENNAME -X stuff '/tell '$P2NAME' You are the YELLOW player (player 2)'$(echo -ne '\015') # yellow
+screen -S $SCREENNAME -X stuff '/tell '$P3NAME' You are the GREEN player (player 3)'$(echo -ne '\015') # green
+screen -S $SCREENNAME -X stuff '/tell '$P4NAME' You are the BLUE player (player 4)'$(echo -ne '\015') # blue
+
 # Countdown to game start
 echo 'The game will start in 10 seconds.'
 screen -S $SCREENNAME -X stuff '/say !!! Minecraft Network Defense !!!'$(echo -ne '\015')
@@ -67,6 +73,12 @@ screen -S $SCREENNAME -X stuff '/say Teleporting players to starting zone once m
 # 180 seconds from gate open until threat spawns begin
 echo 'Game beginning. You have 3 minutes to prepare your defensive perimeter.'
 screen -S $SCREENNAME -X stuff '/say Game beginning. You have 3 minutes to prepare your defensive perimeter.'$(echo -ne '\015')
+
+# Tell each player which base to run to (again)
+screen -S $SCREENNAME -X stuff '/tell '$P1NAME' You are the RED player (player 1)'$(echo -ne '\015') # red
+screen -S $SCREENNAME -X stuff '/tell '$P2NAME' You are the YELLOW player (player 2)'$(echo -ne '\015') # yellow
+screen -S $SCREENNAME -X stuff '/tell '$P3NAME' You are the GREEN player (player 3)'$(echo -ne '\015') # green
+screen -S $SCREENNAME -X stuff '/tell '$P4NAME' You are the BLUE player (player 4)'$(echo -ne '\015') # blue
 
 # Open gates to start the game
 screen -S $SCREENNAME -X stuff '/fill 222 4 217 244 8 239 air 0 replace stonebrick 2'$(echo -ne '\015')
@@ -680,3 +692,9 @@ echo $P3NAME' : '$P3SCORE' points ('$P3INTEL' threat intelligence, '$P3DEATHS' d
 screen -S $SCREENNAME -X stuff '/say '$P3NAME' : '$P3SCORE' points ('$P3INTEL' threat intelligence, '$P3DEATHS' deaths)'$(echo -ne '\015')
 echo $P4NAME' : '$P4SCORE' points ('$P4INTEL' threat intelligence, '$P4DEATHS' deaths)'
 screen -S $SCREENNAME -X stuff '/say '$P4NAME' : '$P4SCORE' points ('$P4INTEL' threat intelligence, '$P4DEATHS' deaths)'$(echo -ne '\015')
+
+# Tell each player their score
+screen -S $SCREENNAME -X stuff '/tell '$P1NAME' You scored: '$P1SCORE' points ('$P1INTEL' threat intelligence, '$P1DEATHS' deaths)'$(echo -ne '\015') # red
+screen -S $SCREENNAME -X stuff '/tell '$P2NAME' You scored: '$P2SCORE' points ('$P2INTEL' threat intelligence, '$P2DEATHS' deaths)'$(echo -ne '\015') # yellow
+screen -S $SCREENNAME -X stuff '/tell '$P3NAME' You scored: '$P3SCORE' points ('$P3INTEL' threat intelligence, '$P3DEATHS' deaths)'$(echo -ne '\015') # green
+screen -S $SCREENNAME -X stuff '/tell '$P4NAME' You scored: '$P4SCORE' points ('$P4INTEL' threat intelligence, '$P4DEATHS' deaths)'$(echo -ne '\015') # blue
