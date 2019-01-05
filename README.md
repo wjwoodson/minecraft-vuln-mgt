@@ -1,3 +1,6 @@
+### Deprecation Notice
+This repository is not maintained and scripts + world files will likely _not_ work with recent mincraft releases.
+
 # Minecraft Network Defense
 Educational 2-4 player minecraft scenario focusing on vulnerability management - identification, prioritization, triage. At the end of each round players can be scored on performance.
 
